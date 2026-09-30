@@ -21,12 +21,14 @@
       box-shadow: 5px 5px 0px #1a1a1a;
       padding: 30px;
     }
-    .logo {
-      color: #ff3366;
-      font-size: 28px;
-      font-weight: 800;
+    .logo-container {
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .logo-img {
+      max-height: 45px;
+      width: auto;
+      display: inline-block;
     }
     .subtitle {
       color: #718096;
@@ -113,7 +115,9 @@
 <body>
 
   <div class="card" id="form-card">
-    <div class="logo">■ apprecio</div>
+    <div class="logo-container">
+      <img src="https://lh3.googleusercontent.com/d/12upXsdMnB3_YmXU1Dm49lfJnUlpJFbHi" alt="Apprecio" class="logo-img">
+    </div>
     <p class="subtitle">Tu opinión es clave para nosotros. Por favor, tómate un minuto para calificar nuestro servicio.</p>
 
     <form id="npsForm">
@@ -189,21 +193,21 @@
 
   <!-- Vista final -->
   <div class="card" id="thankyou">
-    <div class="logo">■ apprecio</div>
+    <div class="logo-container">
+      <img src="https://lh3.googleusercontent.com/d/12upXsdMnB3_YmXU1Dm49lfJnUlpJFbHi" alt="Apprecio" class="logo-img">
+    </div>
     <h2>¡Gracias por tus respuestas!</h2>
     <p>Tu opinión nos ayuda muchísimo a seguir mejorando.</p>
     <div id="agenda-box"></div>
   </div>
 
   <script>
-    // URL de tu Apps Script (la reemplazaremos más adelante)
+    // PEGA AQUÍ TU URL DESPLEGADA DE APPS SCRIPT
     const SCRIPT_URL = "AQUI_IRA_TU_URL_DE_APPS_SCRIPT";
 
-    // Extraer el idÚnico de la URL de la página
     const urlParams = new URLSearchParams(window.location.search);
     const idUnico = urlParams.get('id') || '';
 
-    // Generar escalas dinámicas
     const containerP1 = document.getElementById('p1-group');
     for (let i = 0; i <= 10; i++) {
       createScaleBtn('p1', i, containerP1);
@@ -233,7 +237,6 @@
       document.getElementById('p4-sub').style.display = (val === 'Sí') ? 'block' : 'none';
     }
 
-    // Enviar datos hacia Google Apps Script mediante fetch()
     document.getElementById('npsForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
