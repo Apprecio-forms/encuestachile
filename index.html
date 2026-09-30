@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encuesta de Satisfacción - Apprecio</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+      background-color: #f2f5f9;
+      margin: 0;
+      padding: 30px 15px;
+      color: #2d3748;
+    }
+    .card {
+      max-width: 580px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 2px solid #1a1a1a;
+      box-shadow: 5px 5px 0px #1a1a1a;
+      padding: 30px;
+    }
+    .logo {
+      color: #ff3366;
+      font-size: 28px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #718096;
+      font-size: 14px;
+      text-align: center;
+      line-height: 1.4;
+      margin-bottom: 25px;
+    }
+    .question-block {
+      margin-bottom: 22px;
+    }
+    .question-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: #1a202c;
+      margin-bottom: 10px;
+    }
+    .scale-container {
+      display: flex;
+      gap: 3px;
+    }
+    .scale-btn {
+      flex: 1;
+      height: 38px;
+      border: 1px solid #cbd5e0;
+      background: #fff;
+      border-radius: 4px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #2d3748;
+    }
+    .scale-btn.selected {
+      background-color: #ff3366;
+      color: #ffffff;
+      border-color: #ff3366;
+    }
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #a0aec0;
+      margin-top: 4px;
+    }
+    select, textarea, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .conditional-box {
+      display: none;
+      margin-top: 10px;
+      padding-left: 12px;
+      border-left: 3px solid #ff3366;
+    }
+    .btn-submit {
+      width: 100%;
+      background-color: #ff3366;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    #thankyou {
+      display: none;
+      text-align: center;
+    }
+    .agenda-card {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff5f7;
+      border: 1px dashed #ff3366;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="form-card">
+    <div class="logo">■ apprecio</div>
+    <p class="subtitle">Tu opinión es clave para nosotros. Por favor, tómate un minuto para calificar nuestro servicio.</p>
+
+    <form id="npsForm">
+      <!-- P1 (0 al 10) -->
+      <div class="question-block">
+        <div class="question-title">1. Del 0 al 10, ¿qué tan probable es que recomiendes nuestro servicio de entregas/aguinaldos a otra empresa?</div>
+        <div class="scale-container" id="p1-group"></div>
+        <div class="scale-labels"><span>Nada probable</span><span>Muy probable</span></div>
+        <input type="hidden" id="p1" required>
+      </div>
+
+      <!-- P2 (1 al 10) -->
+      <div class="question-block">
+        <div class="question-title">2. Del 1 al 10, ¿cómo calificas la puntualidad en la entrega de tu pedido?</div>
+        <div class="scale-container" id="p2-group"></div>
+        <div class="scale-labels"><span>Pésima</span><span>Excelente</span></div>
+        <input type="hidden" id="p2" required>
+      </div>
+
+      <!-- P3 (1 al 10) -->
+      <div class="question-block">
+        <div class="question-title">3. Del 1 al 10, ¿cómo calificas la atención y soporte brindado por tu ejecutivo comercial?</div>
+        <div class="scale-container" id="p3-group"></div>
+        <div class="scale-labels"><span>Pésima</span><span>Excelente</span></div>
+        <input type="hidden" id="p3" required>
+      </div>
+
+      <!-- P4 -->
+      <div class="question-block">
+        <div class="question-title">4. ¿Tuviste algún problema o inconveniente con tu pedido?</div>
+        <select id="p4" onchange="toggleP4Sub(this.value)" required>
+          <option value="">Selecciona...</option>
+          <option value="No">No</option>
+          <option value="Sí">Sí</option>
+        </select>
+
+        <div class="conditional-box" id="p4-sub">
+          <div style="margin-bottom: 8px;">
+            <label style="font-size: 13px; font-weight: 600;">* Si marcaste Sí, indícanos cuál:</label>
+            <input type="text" id="p4a" placeholder="Detalla el problema aquí...">
+          </div>
+          <div>
+            <label style="font-size: 13px; font-weight: 600;">* Si marcaste Sí, ¿se resolvió?</label>
+            <select id="p4b">
+              <option value="">Selecciona...</option>
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- P5 -->
+      <div class="question-block">
+        <div class="question-title">5. Si volvieras a entregar aguinaldos o beneficios a tus colaboradores, ¿seríamos tu primera opción?</div>
+        <select id="p5" required>
+          <option value="">Selecciona...</option>
+          <option value="Sí, totalmente">Sí, totalmente</option>
+          <option value="Tal vez / Depende">Tal vez / Depende</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <!-- P6 -->
+      <div class="question-block">
+        <div class="question-title">6. ¿Tienes algún comentario adicional?</div>
+        <textarea id="p6" rows="2" placeholder="Escribe tu comentario aquí (opcional)..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Enviar Encuesta</button>
+    </form>
+  </div>
+
+  <!-- Vista final -->
+  <div class="card" id="thankyou">
+    <div class="logo">■ apprecio</div>
+    <h2>¡Gracias por tus respuestas!</h2>
+    <p>Tu opinión nos ayuda muchísimo a seguir mejorando.</p>
+    <div id="agenda-box"></div>
+  </div>
+
+  <script>
+    // URL de tu Apps Script (la reemplazaremos más adelante)
+    const SCRIPT_URL = "AQUI_IRA_TU_URL_DE_APPS_SCRIPT";
+
+    // Extraer el idÚnico de la URL de la página
+    const urlParams = new URLSearchParams(window.location.search);
+    const idUnico = urlParams.get('id') || '';
+
+    // Generar escalas dinámicas
+    const containerP1 = document.getElementById('p1-group');
+    for (let i = 0; i <= 10; i++) {
+      createScaleBtn('p1', i, containerP1);
+    }
+
+    ['p2', 'p3'].forEach(id => {
+      const container = document.getElementById(id + '-group');
+      for (let i = 1; i <= 10; i++) {
+        createScaleBtn(id, i, container);
+      }
+    });
+
+    function createScaleBtn(fieldId, val, container) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'scale-btn';
+      btn.innerText = val;
+      btn.onclick = function() {
+        Array.from(container.children).forEach(c => c.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById(fieldId).value = val;
+      };
+      container.appendChild(btn);
+    }
+
+    function toggleP4Sub(val) {
+      document.getElementById('p4-sub').style.display = (val === 'Sí') ? 'block' : 'none';
+    }
+
+    // Enviar datos hacia Google Apps Script mediante fetch()
+    document.getElementById('npsForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (document.getElementById('p1').value === '' || 
+          document.getElementById('p2').value === '' || 
+          document.getElementById('p3').value === '') {
+        alert('Por favor selecciona una nota en las preguntas del 1 al 3.');
+        return;
+      }
+
+      const datos = {
+        idUnico: idUnico,
+        p1: document.getElementById('p1').value,
+        p2: document.getElementById('p2').value,
+        p3: document.getElementById('p3').value,
+        p4: document.getElementById('p4').value,
+        p4a: document.getElementById('p4a').value,
+        p4b: document.getElementById('p4b').value,
+        p5: document.getElementById('p5').value,
+        p6: document.getElementById('p6').value
+      };
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
+      })
+      .then(() => {
+        document.getElementById('form-card').style.display = 'none';
+        document.getElementById('thankyou').style.display = 'block';
+      })
+      .catch(err => alert('Ocurrió un error al enviar tus respuestas.'));
+    });
+  </script>
+</body>
+</html>
